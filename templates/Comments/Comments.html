@@ -1,0 +1,10 @@
+{% extends "base/base.html" %}
+{% block title %} Comments {% endblock %}
+{% block body_content %}
+    <script>
+      $("#liComments").addClass("active");
+    </script>
+
+       {% include "Comments/PartialComments.html" %}
+
+{% endblock %}

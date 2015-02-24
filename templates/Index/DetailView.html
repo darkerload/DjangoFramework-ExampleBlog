@@ -1,0 +1,85 @@
+{% extends "base/base.html" %}
+
+{% block title %} Details {% endblock %}
+
+{% block body_content %}
+    <script>
+
+    $(function(){
+
+        $("#liIndex").addClass("active");
+
+        commentsList();
+
+          $("#leave_comment").submit(function(){
+            $.ajax({
+                 type:"POST",
+                 url:"/leaveComment/",
+                 data: {
+                        'sid': getQueryString("id"),
+                        'comment': $('#commentText').val()
+                        },
+                 success: function(result){
+                     if(result=="true")
+                            $('#commentText').val('')
+                            commentsList();
+
+                 }
+            });
+            return false; //<---- move it here
+       });
+
+        function commentsList()
+        {
+            $.ajax({
+               type:"POST",
+                url:"/comments/",
+                data:{
+                    'sid': getQueryString("id")
+                },
+                success:function(result){
+                     $('#commentArea').html('')
+                     $('#commentArea').html(result)
+                }
+            });
+        }
+
+
+
+        function getQueryString(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+    })
+
+    </script>
+
+
+
+            <div class="panel panel-default" style="width:800px;">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{ result.Head }}</h3>
+              </div>
+              <div class="panel-body">
+                {{ result.ContentText }}
+              </div>
+            </div>
+
+    <div id="commentArea"></div>
+
+    <div class="bs-example" data-example-id="simple-help-text">
+    <form method="post" id="leave_comment">
+      <div class="form-group">
+        <label for="inputHelpBlock">Leave Comment</label>
+        <input type="text" id="commentText" class="form-control" aria-describedby="helpBlock">
+      </div>
+      <span id="helpBlock" class="help-block">Enter press for send comment</span>
+    </form>
+  </div>
+
+
+
+{% endblock %}
