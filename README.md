@@ -1,4 +1,4 @@
-# DjangoFramework-ApoSimpleBlog
+# DjangoFramework-ExampleBlog
 Requirements
 * Python 3.4
 * Django 1.7.4
